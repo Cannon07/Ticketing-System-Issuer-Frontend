@@ -2,15 +2,13 @@
 
 import Accordion from "@/shortcodes/Accordion"
 import { useEffect, useState } from "react";
-import ImageFallback from "@/helpers/ImageFallback";
-import OrganizerProfileSettings from "@/components/OrganizerProfileSettings";
-import HostedEventsCard from "@/components/HostedEventsCard";
 import PastHostingsCard from "@/components/PastHostingsCard";
 import { useGlobalContext } from "@/app/context/globalContext";
-import { GetOrganizerEvents } from "@/constants/endpoints/OrganizerEndpoints";
+
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import PendingRequestsCard from "@/components/PendingRequestsCard";
+import IssuerProfileSettings from "@/components/IssuerProfileSettings";
 
 interface artistI {
     id: string,
@@ -367,18 +365,12 @@ const IssuerProfile = () => {
                                                 tab === 'Profile Settings' ? (
                                                     <div className="flex justify-center items-center flex-wrap">
 
-                                                        <OrganizerProfileSettings
-                                                            id={organizerData?.id}
-                                                            name={organizerData?.name}
-                                                            email={organizerData?.email}
-                                                            govId={organizerData?.govId}
-                                                            profileImg={organizerData?.profileImg}
-                                                            transactionId={organizerData?.transactionId}
-                                                            walletId={organizerData?.walletId}
-                                                            originalImage={image}
-                                                            setImage={setImage}
-                                                            organizedEvents={organizerData?.organisedEvents}
-                                                            setOrganizerData={setOrganizerData}
+                                                        <IssuerProfileSettings
+                                                            id="123"
+                                                            name="Nikhil Magar"
+                                                            email="nikhil@gmail.com"
+                                                            govId="489579457938"
+                                                            type="Student VC Issuer"
                                                         />
 
                                                     </div>
