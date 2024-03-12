@@ -1,21 +1,22 @@
 
 import UpdateEventForm from "@/components/UpdateEventForm";
-import OrganizerPageHeader from "@/partials/OrganizerPageHeader";
+import IssuerPageHeader from "@/partials/IssuerPageHeader";
 
 
-interface UpdateEventProps {
+
+interface ViewRequestProps {
     params: {
       id: string; 
     };
   }
   
-  const UpdateEvent: React.FC<UpdateEventProps> = ({ params }) => {
+  const ViewRequest: React.FC<ViewRequestProps> = ({ params }) => {
     const { id } = params;
 
     return (
         <>
 
-            <OrganizerPageHeader title={"Update Event"} />
+            <IssuerPageHeader title={""} />
             <section className="section-sm">
                 <div className="container">
                     <div className="row px-4">
@@ -28,4 +29,4 @@ interface UpdateEventProps {
     );
 };
 
-export default UpdateEvent;
+export default ViewRequest;

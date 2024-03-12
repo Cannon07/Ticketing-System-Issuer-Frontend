@@ -1,13 +1,5 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
-import { useInstalledWallets, useUninstalledWallets, useWallet } from 'useink';
-import { useGlobalContext } from "@/app/context/globalContext";
-import toast from "react-hot-toast";
-import { GetOrganizerByWalletId } from "@/constants/endpoints/OrganizerEndpoints";
-import { usePathname, useRouter } from "next/navigation";
+import React from "react";
 
-import { FiLogIn } from "react-icons/fi";
-import RegisterModal from "@/components/RegisterModal";
 
 
 
@@ -26,7 +18,7 @@ import RegisterModal from "@/components/RegisterModal";
 //   active: boolean;
 // }
 
-export const ConnectWallet = () => {
+export const IssuerLogin = () => {
   
   // const { account, accounts, setAccount, connect, disconnect } = useWallet();
   // const installedWallets = useInstalledWallets();
@@ -130,11 +122,11 @@ export const ConnectWallet = () => {
   return (
         <ul
           id="nav-menu"
-          className="navbar-nav order-3 hidden w-full pb-6 lg:order-1 lg:flex lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8"
+          className="navbar-nav order-1 flex w-auto space-x-2 pb-0 xl:space-x-8"
         >
                   <button
                     onClick={handleLoginClick}
-                    className={`btn btn-outline-primary btn-sm hidden lg:inline-flex items-center cursor-pointer`}
+                    className={`btn btn-outline-primary btn-sm lg:inline-flex items-center cursor-pointer`}
                   >
                     Login
                   </button>
