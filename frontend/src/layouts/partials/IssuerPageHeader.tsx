@@ -1,6 +1,6 @@
 import { humanize } from "@/lib/utils/textConverter";
 
-const OrganizerPageHeader = ({ title }: { title: string }) => {
+const IssuerPageHeader = ({ title }: { title: string }) => {
   return (
     <section>
       <div className="container text-center">
@@ -12,4 +12,4 @@ const OrganizerPageHeader = ({ title }: { title: string }) => {
   );
 };
 
-export default OrganizerPageHeader;
+export default IssuerPageHeader;

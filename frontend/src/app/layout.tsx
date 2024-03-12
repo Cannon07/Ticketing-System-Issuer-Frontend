@@ -8,6 +8,8 @@ import Providers from "@/partials/Providers";
 import "@/styles/main.scss";
 import React from "react";
 import { ToastConfig } from "./toast-config";
+import RegisterModal from "@/components/RegisterModal";
+import LoginModal from "@/components/LoginModal";
 
 export default function RootLayout({
   children,
@@ -64,6 +66,8 @@ export default function RootLayout({
         <TwSizeIndicator />
         <Providers>
           <Header/>
+          <RegisterModal/>
+          <LoginModal />
           <ToastConfig/>
           <main>{children}</main>
           <Footer />
