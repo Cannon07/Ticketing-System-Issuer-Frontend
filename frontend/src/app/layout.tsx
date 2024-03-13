@@ -66,6 +66,7 @@ export default function RootLayout({
         <TwSizeIndicator />
         <Providers>
           <Header/>
+          
           <RegisterModal/>
           <LoginModal />
           <ToastConfig/>

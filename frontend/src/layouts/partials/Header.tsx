@@ -8,6 +8,8 @@ import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import { IssuerLogin } from "./IssuerLogin";
 import { useGlobalContext } from "@/app/context/globalContext";
+import { ConnectWallet } from "../web3/ConnectWallet";
+import { useWallet } from "useink";
 
 
 
@@ -33,7 +35,7 @@ const Header = () => {
   const { navigation_button, settings } = config;
   // get current path
   const pathname = usePathname();
-  const { organizerData } = useGlobalContext();
+
 
 
 
@@ -60,9 +62,14 @@ const Header = () => {
 
         
           <ThemeSwitcher className="mr-5" />
+          <div className="lg:mr-5">
+            <ConnectWallet />
+          </div>
           <div>
             <IssuerLogin />
           </div>
+       
+
         </div>
       </nav>
     </header>

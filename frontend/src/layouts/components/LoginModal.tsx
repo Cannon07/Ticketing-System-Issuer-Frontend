@@ -190,7 +190,6 @@ const LoginModal = () => {
             <div className="flex flex-col gap-6">
                 <div className={"flex flex-col w-full"}>
                 
-               
                 
                      
                   <div className="w-full mb-4">

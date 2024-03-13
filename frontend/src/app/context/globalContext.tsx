@@ -3,7 +3,7 @@
 import { createContext, useContext, Dispatch, SetStateAction,useState, ReactNode } from "react";
 
 
-interface OrganizerData {
+interface IssuerData {
   id: string,
   name: string,
   email: string,
@@ -17,15 +17,19 @@ interface OrganizerData {
 interface ContextProps{
     connectLoading: boolean,
     setConnectLoading: Dispatch<SetStateAction<boolean>>,
-    organizerData: OrganizerData | null,
-    setOrganizerData: Dispatch<SetStateAction<OrganizerData | null>>,
+    issuerData: IssuerData | null,
+    setIssuerData: Dispatch<SetStateAction<IssuerData | null>>,
+    walletAddress: string,
+    setWalletAddress: Dispatch<SetStateAction<string>>
 }
 
 const GlobalContext = createContext<ContextProps>({
     connectLoading: false,
     setConnectLoading: (): boolean=>false,
-    organizerData: null,
-    setOrganizerData: (): OrganizerData | null => null,
+    issuerData: null,
+    setIssuerData: (): IssuerData | null => null,
+    walletAddress: '',
+    setWalletAddress: (): string=>'',
 })
 
 interface GlobalContextProviderProps{
@@ -35,10 +39,11 @@ interface GlobalContextProviderProps{
 export const GlobalContextProvider = ({children}:GlobalContextProviderProps)=>{
     
     const [connectLoading, setConnectLoading] = useState(false);
-    const [organizerData, setOrganizerData] = useState<OrganizerData | null>(null);
+    const [issuerData, setIssuerData] = useState<IssuerData | null>(null);
+    const [walletAddress, setWalletAddress] = useState('');
 
     return (
-        <GlobalContext.Provider value = {{connectLoading,setConnectLoading,organizerData,setOrganizerData}}>
+        <GlobalContext.Provider value = {{connectLoading,setConnectLoading,issuerData,setIssuerData,walletAddress,setWalletAddress}}>
 
             {children}
 

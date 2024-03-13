@@ -53,10 +53,10 @@ interface eventsDataI {
 
 const IssuerProfile = () => {
 
-    const { organizerData, setOrganizerData } = useGlobalContext();
+    const { issuerData, setIssuerData } = useGlobalContext();
     const router = useRouter();
     const [tab, setTab] = useState('Hosted Events')
-    const [image, setImage] = useState(organizerData?.profileImg);
+    // const [image, setImage] = useState(organizerData?.profileImg);
     const [eventsData, setEventsData] = useState<eventsDataI[]>([])
     const currentDateAndTime = new Date();
 
@@ -275,11 +275,14 @@ const IssuerProfile = () => {
                             {
                                 tab === 'Pending Requests' ? (
 
-                                    <div className="flex justify-center items-center h-full flex-wrap">
+                                    <div>
 
 
                                         {/* {upcomingEvents.length != 0 ? */}
 
+                                            <PendingRequestsCard />
+                                            <PendingRequestsCard />
+                                            <PendingRequestsCard />
                                             <PendingRequestsCard />
 
                                             {/* :

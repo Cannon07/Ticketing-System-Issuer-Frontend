@@ -75,7 +75,7 @@ interface IdProps{
 const UpdateEventForm: React.FC<IdProps> = ({id}) => {
 
     const router = useRouter();
-    const { organizerData } = useGlobalContext();
+   
     const {account} = useWallet();
 
     const contract = useContract(CONTRACT_ADDRESS || '', metadata);
@@ -187,11 +187,6 @@ const UpdateEventForm: React.FC<IdProps> = ({id}) => {
         }
     }, [selectedCity])
 
-    useEffect(()=>{
-      if(organizerData===null){
-        router.push('/');
-      }
-    },[organizerData?.walletId])
 
     
     const getEventById = async()=>{
@@ -509,10 +504,7 @@ const UpdateEventForm: React.FC<IdProps> = ({id}) => {
           toast.dismiss()
           toast.error('You are not connected to wallet!')
         }
-        else if(organizerData===null){
-          toast.dismiss();
-          toast.error("Please register as organizer..")
-        }
+      
         else if (eventTitle === '') {
             toast.dismiss();
             toast.error('Please enter event title');
