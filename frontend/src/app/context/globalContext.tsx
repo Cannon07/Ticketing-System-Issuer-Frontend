@@ -8,10 +8,10 @@ interface IssuerData {
   name: string,
   email: string,
   govId: string,
+  type: string,
+  publicDid: string,
   walletId: string,
   transactionId: string,
-  organisedEvents: string[]
-  profileImg: string,
 }
 
 interface ContextProps{

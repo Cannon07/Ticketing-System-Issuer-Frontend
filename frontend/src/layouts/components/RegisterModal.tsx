@@ -9,16 +9,22 @@ import { useTxNotifications } from "useink/notifications";
 import { generateHash } from "@/lib/utils/hashGenerator";
 import toast from "react-hot-toast";
 import { ConnectWallet } from "../web3/ConnectWallet";
+import { PostIssuer } from "@/constants/endpoints/IssuerEndpoints";
 
 
-interface UserData {
+
+
+interface IssuerData {
   id: string,
-  profileImg: string,
-  transactionId: string,
-  userDetailsId: string,
-  userEmail: string,
+  name: string,
+  email: string,
+  govId: string,
+  type: string,
+  publicDid: string,
   walletId: string,
+  transactionId: string,
 }
+
 
 const RegisterModal = () => {
 
@@ -26,11 +32,11 @@ const RegisterModal = () => {
 
   const contract = useContract(CONTRACT_ADDRESS, metadata);
 
-  const { account } = useWallet()
+  const { account, disconnect } = useWallet()
 
-  const registerUser = useTx(contract, 'registerUser');
-  useTxNotifications(registerUser);
-  const {walletAddress} = useGlobalContext()
+  const registerIssuer = useTx(contract, 'registerIssuer');
+  useTxNotifications(registerIssuer);
+  const { walletAddress, connectLoading, setConnectLoading, setIssuerData } = useGlobalContext()
 
   const [fullname, setFullname] = useState('');
   const [email, setEmail] = useState('');
@@ -39,47 +45,44 @@ const RegisterModal = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  const [file, setFile] = useState<File | undefined>();
-  const imageRef = useRef<HTMLInputElement>(null);
-
-  // const registerStatus = () => {
-  //   if(registerUser.status === 'Finalized'){
-  //     let txId = "";
-  //     registerUser.result?.contractEvents?.map((value) => {
-  //       txId = Object.values(value.args[1]).slice(0, 64).join("")
-  //     });
-  //     toast.dismiss()
-  //     if (txId === "") {
-  //       toast.error("Something went wrong!")
-  //       //setFullname("");
-  //       //setUsername("");
-  //       setEmail("");
-  //       setFile(undefined);
-  //       disconnect();
-  //     } else {
-  //       toast.success('Transaction finalized!')
-  //       let register_toast = toast.loading('Registering User..')
-  //       uploadImage(txId);
-  //       toast.dismiss(register_toast);
-  //     }
-  //     setConnectLoading(false)
-  //   }
-  //   else if(registerUser.status === 'PendingSignature'){
-  //     toast.dismiss()
-  //     toast.loading('Pending signature..')
-  //   }
-  //   else if(registerUser.status === 'Broadcast'){
-  //     toast.dismiss()
-  //     toast.loading('Broadcasting transaction..')
-  //   }
-  //   else if(registerUser.status === 'InBlock'){
-  //     toast.dismiss()
-  //     toast.loading('Transaction In Block..')
-  //   }
-  //   else{
-  //     toast.dismiss()
-  //   }
-  // }
+  const registerStatus = () => {
+    if (registerIssuer.status === 'Finalized') {
+      let txId = "";
+      registerIssuer.result?.contractEvents?.map((value) => {
+        txId = Object.values(value.args[1]).slice(0, 64).join("")
+      });
+      toast.dismiss()
+      if (txId === "") {
+        toast.error("Something went wrong!")
+        setFullname("");
+        setEmail("");
+        setGovId("");
+        setType("")
+        setPassword("")
+        setConfirmPassword("")
+        disconnect();
+      } else {
+        
+        toast.success('Transaction finalized!')
+      }
+      setConnectLoading(false)
+    }
+    else if (registerIssuer.status === 'PendingSignature') {
+      toast.dismiss()
+      toast.loading('Pending signature..')
+    }
+    else if (registerIssuer.status === 'Broadcast') {
+      toast.dismiss()
+      toast.loading('Broadcasting transaction..')
+    }
+    else if (registerIssuer.status === 'InBlock') {
+      toast.dismiss()
+      toast.loading('Transaction In Block..')
+    }
+    else {
+      toast.dismiss()
+    }
+  }
 
   useEffect(() => {
     const registerModal = document.getElementById("registerModal");
@@ -98,81 +101,93 @@ const RegisterModal = () => {
     registerModalOverlay!.addEventListener("click", function () {
       registerModal!.classList.remove("show");
       toast.dismiss()
-      // setConnectLoading(false)
-      // disconnect()
+      setConnectLoading(false)
+      disconnect()
     });
 
-    // registerStatus()
-  }, [registerUser.status]);
+    registerStatus()
+  }, [registerIssuer.status]);
 
-  // const saveUser = async (txId: string, imageUrl: string) => {
-  //     var myHeaders = new Headers();
-  //     myHeaders.append("Content-Type", "application/json");
-
-  //     // var raw = JSON.stringify({
-  //     //   "userEmail": email,
-  //     //   "walletId": walletAddress,
-  //     //   "userDetailsId": "",
-  //     //   "transactionId": txId,
-  //     //   "profileImg": imageUrl,
-  //     // });
-
-  //     console.log(raw);
-
-  //     var requestOptions = {
-  //       method: 'POST',
-  //       headers: myHeaders,
-  //       body: raw,
-  //     };
-
-  //     let response = await fetch(`${PostUser}`, requestOptions)
-  //     if (response.ok) {
-  //       let result = await response.json();
-  //       console.log(result)
-  //       let newUserData: UserData = {
-  //         "id": result.statusMsg,
-  //         "userEmail": email,
-  //         "walletId": walletAddress,
-  //         "userDetailsId": "",
-  //         "transactionId": txId,
-  //         "profileImg": imageUrl,
-  //       }
-  //       setUserData(newUserData);
-  //       toast.success("User Registered!")
-  //       //setFullname("");
-  //       //setUsername("");
-  //       setEmail("");
-  //       setFile(undefined);
-  //     }
-  // }
-
-  // const uploadImage = async (txId: string) => {
-  //   if (typeof(file) === 'undefined') return;
-
-  //   var formdata = new FormData();
-  //   formdata.append("file", file);
-
-  //   var requestOptions = {
-  //     method: 'POST',
-  //     body: formdata,
-  //   };
-
-  //   let response = await fetch(`${PostImage}`, requestOptions);
-  //   let result = await response.text()
-  //   saveUser(txId, result)
-  // }
-
+  const saveIssuer = async () => {
+    try {
+      toast.loading('Registering Issuer..');
+  
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+  
+      var raw = JSON.stringify({
+        "name": fullname,
+        "email": email,
+        "password": password,
+        "govId": govId,
+        "privateDid": "",
+        "publicDid": "",
+        "type": type,
+        "walletId": walletAddress,
+        "pendingRequests": [],
+        "issuedVCs": [],
+        "rejectedRequests": []
+      });
+  
+      console.log(raw);
+  
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+      };
+  
+      let response = await fetch(`${PostIssuer}`, requestOptions)
+  
+      console.log(response)
+  
+      if (response.ok) {
+        // const result = await response.json();
+        // console.log(result)
+        let newIssuerData: IssuerData = {
+          id: "12233",
+          name: fullname,
+          email: email,
+          govId: govId,
+          type: type,
+          publicDid: "1313",
+          walletId: walletAddress,
+          transactionId: "234234",
+        }
+        setIssuerData(newIssuerData);
+        toast.success("User Registered!")
+        setFullname("");
+        setEmail("");
+        setGovId("");
+        setType("");
+        setPassword("");
+        setConfirmPassword("");
+        registerIssuer.signAndSend(["did:123123"]);
+        const registerModal = document.getElementById("registerModal");
+        registerModal!.classList.remove("show");
+      } else {
+        toast.dismiss()
+        toast.error('Failed to register issuer')
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.dismiss();
+      toast.error('An error occurred while registering issuer');
+    }
+  }
+  
+ 
   const handleRegisterClick = async () => {
-    if (email === "") toast.error("Please enter Email");
-    //else if (fullname === "") toast.error("Please enter Full Name");
-    //else if (username === "") toast.error("Please enter Username");
-    else if (typeof (file) === 'undefined') toast.error("Please upload Profile Image");
+    if (fullname === "") toast.error("Please enter Full Name");
+    else if (email === "") toast.error("Please enter Email");
+    else if (govId === "") toast.error("Please enter Aadhar Number");
+    else if (type === "") toast.error("Please select type of issuer");
+    else if (password === "") toast.error("Please enter password")
+    else if (confirmPassword === "") toast.error("Please enter confirm password")
+    else if(password!==confirmPassword) toast.error("Password Mismatched!")
     else {
-      const hashData = generateHash([email])
-      const registerModal = document.getElementById("registerModal");
-      registerUser.signAndSend([hashData]);
-
-      registerModal!.classList.remove("show");
+          
+          saveIssuer()
     }
   }
 
@@ -185,7 +200,7 @@ const RegisterModal = () => {
   }
 
 
-  // <div className={"grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2  gap-4 w-full"}>
+
   return (
     <div id="registerModal" className="search-modal">
       <div id="registerModalOverlay" className="search-modal-overlay" />
@@ -196,7 +211,7 @@ const RegisterModal = () => {
             <div className="mx-auto mb-4 w-full sm:px-4 md:px-8 lg:px-12">
               <div className="flex flex-col gap-6">
                 <div className={"grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2  gap-4 w-full"}>
-                  
+
 
                   <div className="w-full">
                     <label htmlFor="title" className="form-label block">
@@ -323,9 +338,6 @@ const RegisterModal = () => {
                 className="underline font-semibold"
                 onClick={handleLoginHere}> Login Here</button>
               </p>
-
-
-
             </div>
           </div>
         </div>

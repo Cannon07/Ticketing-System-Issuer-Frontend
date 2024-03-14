@@ -1,11 +1,11 @@
-import React from "react";
+"use client"
 
+import { useGlobalContext } from "@/app/context/globalContext";
 
 export const IssuerLogin = () => {
 
 
-
-  const loggedIn = false;
+  const {issuerData} = useGlobalContext()
 
 
   const handleLoginClick = (e: any) => {
@@ -28,7 +28,7 @@ export const IssuerLogin = () => {
       className="navbar-nav order-1 flex w-auto space-x-2 pb-0 xl:space-x-8"
     >
 
-      {!loggedIn ?
+      {!issuerData ?
         <button
           onClick={handleLoginClick}
           className={`btn btn-outline-primary btn-sm lg:inline-flex items-center cursor-pointer px-8`}
@@ -39,7 +39,7 @@ export const IssuerLogin = () => {
           onClick={handleLogoutClick}
           className={`btn btn-outline-primary btn-sm lg:inline-flex items-center cursor-pointer px-8`}
         >
-          Nikhil Magar
+          {issuerData?.name}
         </button>
       }
 

@@ -1,12 +1,12 @@
 {
   "source": {
-    "hash": "0x6424dc8d5518a76f03f159b0c58528bf3f1d96fd7409814fc71eae66b57b8282",
+    "hash": "0x7a816a890e838be89cb74bee1f57bc7ecf408690e724c5f66ae67d412e773823",
     "language": "ink! 4.3.0",
-    "compiler": "rustc 1.75.0",
+    "compiler": "rustc 1.73.0",
     "build_info": {
       "build_mode": "Debug",
       "cargo_contract_version": "3.2.0",
-      "rust_toolchain": "stable-x86_64-unknown-linux-gnu",
+      "rust_toolchain": "stable-x86_64-pc-windows-msvc",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
         "optimization_passes": "Z"
@@ -14,7 +14,7 @@
     }
   },
   "contract": {
-    "name": "ticketing_system",
+    "name": "ssi_system",
     "version": "0.1.0",
     "authors": [
       "[your_name] <[your_email]>"
@@ -23,17 +23,7 @@
   "spec": {
     "constructors": [
       {
-        "args": [
-          {
-            "label": "tickets_nft_code_hash",
-            "type": {
-              "displayName": [
-                "Hash"
-              ],
-              "type": 6
-            }
-          }
-        ],
+        "args": [],
         "default": false,
         "docs": [],
         "label": "new",
@@ -43,7 +33,7 @@
             "ink_primitives",
             "ConstructorResult"
           ],
-          "type": 7
+          "type": 1
         },
         "selector": "0x9bae9d5e"
       }
@@ -54,38 +44,38 @@
         "displayName": [
           "AccountId"
         ],
-        "type": 2
+        "type": 10
       },
       "balance": {
         "displayName": [
           "Balance"
         ],
-        "type": 25
+        "type": 13
       },
       "blockNumber": {
         "displayName": [
           "BlockNumber"
         ],
-        "type": 5
+        "type": 16
       },
       "chainExtension": {
         "displayName": [
           "ChainExtension"
         ],
-        "type": 27
+        "type": 17
       },
       "hash": {
         "displayName": [
           "Hash"
         ],
-        "type": 6
+        "type": 14
       },
       "maxEventTopics": 4,
       "timestamp": {
         "displayName": [
           "Timestamp"
         ],
-        "type": 26
+        "type": 15
       }
     },
     "events": [
@@ -99,7 +89,7 @@
               "displayName": [
                 "Option"
               ],
-              "type": 24
+              "type": 9
             }
           },
           {
@@ -115,7 +105,7 @@
           }
         ],
         "docs": [],
-        "label": "AccountModified"
+        "label": "IssuerModified"
       },
       {
         "args": [
@@ -127,7 +117,7 @@
               "displayName": [
                 "Option"
               ],
-              "type": 24
+              "type": 9
             }
           },
           {
@@ -136,53 +126,14 @@
             "label": "data",
             "type": {
               "displayName": [
-                "Vec"
+                "String"
               ],
-              "type": 1
+              "type": 0
             }
           }
         ],
         "docs": [],
-        "label": "EventModified"
-      },
-      {
-        "args": [
-          {
-            "docs": [],
-            "indexed": true,
-            "label": "from",
-            "type": {
-              "displayName": [
-                "Option"
-              ],
-              "type": 24
-            }
-          },
-          {
-            "docs": [],
-            "indexed": true,
-            "label": "to",
-            "type": {
-              "displayName": [
-                "Option"
-              ],
-              "type": 24
-            }
-          },
-          {
-            "docs": [],
-            "indexed": true,
-            "label": "id",
-            "type": {
-              "displayName": [
-                "u32"
-              ],
-              "type": 5
-            }
-          }
-        ],
-        "docs": [],
-        "label": "Transfer"
+        "label": "VerifierModified"
       }
     ],
     "lang_error": {
@@ -190,13 +141,13 @@
         "ink",
         "LangError"
       ],
-      "type": 9
+      "type": 3
     },
     "messages": [
       {
         "args": [
           {
-            "label": "data_hash",
+            "label": "did",
             "type": {
               "displayName": [
                 "String"
@@ -207,7 +158,7 @@
         ],
         "default": false,
         "docs": [],
-        "label": "register_user",
+        "label": "register_issuer",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -215,41 +166,15 @@
             "ink",
             "MessageResult"
           ],
-          "type": 10
+          "type": 4
         },
-        "selector": "0xf093f13c"
-      },
-      {
-        "args": [
-          {
-            "label": "data_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "update_user",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0x50d56931"
+        "selector": "0x8bc5d334"
       },
       {
         "args": [],
         "default": false,
         "docs": [],
-        "label": "get_user",
+        "label": "get_issuer",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -257,14 +182,14 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 7
         },
-        "selector": "0xa4ca534e"
+        "selector": "0x19e10eae"
       },
       {
         "args": [
           {
-            "label": "data_hash",
+            "label": "did",
             "type": {
               "displayName": [
                 "String"
@@ -275,7 +200,7 @@
         ],
         "default": false,
         "docs": [],
-        "label": "register_organizer",
+        "label": "register_verifier",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -283,41 +208,15 @@
             "ink",
             "MessageResult"
           ],
-          "type": 10
+          "type": 4
         },
-        "selector": "0x83ca23d1"
-      },
-      {
-        "args": [
-          {
-            "label": "data_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "update_organizer",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xe4aeed8d"
+        "selector": "0xb3c7f5d4"
       },
       {
         "args": [],
         "default": false,
         "docs": [],
-        "label": "get_organizer",
+        "label": "get_verifier",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -325,393 +224,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 7
         },
-        "selector": "0x31aa06a6"
-      },
-      {
-        "args": [
-          {
-            "label": "data_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "tier_list",
-            "type": {
-              "displayName": [
-                "Vec"
-              ],
-              "type": 1
-            }
-          },
-          {
-            "label": "seats_list",
-            "type": {
-              "displayName": [
-                "Vec"
-              ],
-              "type": 15
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "register_event",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0x75d5ba2b"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "get_events",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 16
-        },
-        "selector": "0x468ca9c0"
-      },
-      {
-        "args": [
-          {
-            "label": "old_event",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "new_event",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "update_events",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xc3a15a58"
-      },
-      {
-        "args": [
-          {
-            "label": "event_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "tier",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "get_tiers",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 18
-        },
-        "selector": "0xe1833ef5"
-      },
-      {
-        "args": [
-          {
-            "label": "event_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "tier",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "get_booked_seats_by_tier",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 18
-        },
-        "selector": "0xb991dd2a"
-      },
-      {
-        "args": [
-          {
-            "label": "event_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "id",
-            "type": {
-              "displayName": [
-                "u32"
-              ],
-              "type": 5
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "get_token_tier",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 20
-        },
-        "selector": "0x6b55e8e1"
-      },
-      {
-        "args": [
-          {
-            "label": "event_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "owner",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 2
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "balanace_of",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 18
-        },
-        "selector": "0xec34d976"
-      },
-      {
-        "args": [
-          {
-            "label": "event_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "id",
-            "type": {
-              "displayName": [
-                "u32"
-              ],
-              "type": 5
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "owner_of",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 22
-        },
-        "selector": "0x99720c1e"
-      },
-      {
-        "args": [
-          {
-            "label": "event_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "tier",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "mint",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xcfdd9aa2"
-      },
-      {
-        "args": [
-          {
-            "label": "event_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "id",
-            "type": {
-              "displayName": [
-                "u32"
-              ],
-              "type": 5
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "burn",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xb1efc17b"
-      },
-      {
-        "args": [
-          {
-            "label": "event_hash",
-            "type": {
-              "displayName": [
-                "String"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "destination",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 2
-            }
-          },
-          {
-            "label": "id",
-            "type": {
-              "displayName": [
-                "u32"
-              ],
-              "type": 5
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "transfer",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0x84a15da1"
+        "selector": "0x3c5a0aab"
       }
     ]
   },
@@ -725,97 +240,31 @@
                 "root": {
                   "layout": {
                     "leaf": {
-                      "key": "0xab40a79e",
+                      "key": "0x4a101f4d",
                       "ty": 0
                     }
                   },
-                  "root_key": "0xab40a79e"
+                  "root_key": "0x4a101f4d"
                 }
               },
-              "name": "users"
+              "name": "issuers"
             },
             {
               "layout": {
                 "root": {
                   "layout": {
                     "leaf": {
-                      "key": "0x8c03e5ea",
+                      "key": "0x3424a60e",
                       "ty": 0
                     }
                   },
-                  "root_key": "0x8c03e5ea"
+                  "root_key": "0x3424a60e"
                 }
               },
-              "name": "organizers"
-            },
-            {
-              "layout": {
-                "root": {
-                  "layout": {
-                    "leaf": {
-                      "key": "0xe5513daa",
-                      "ty": 1
-                    }
-                  },
-                  "root_key": "0xe5513daa"
-                }
-              },
-              "name": "events"
-            },
-            {
-              "layout": {
-                "root": {
-                  "layout": {
-                    "struct": {
-                      "fields": [
-                        {
-                          "layout": {
-                            "struct": {
-                              "fields": [
-                                {
-                                  "layout": {
-                                    "leaf": {
-                                      "key": "0xbcad086a",
-                                      "ty": 2
-                                    }
-                                  },
-                                  "name": "account_id"
-                                }
-                              ],
-                              "name": "CallBuilder"
-                            }
-                          },
-                          "name": "inner"
-                        }
-                      ],
-                      "name": "TicketsNftRef"
-                    }
-                  },
-                  "root_key": "0xbcad086a"
-                }
-              },
-              "name": "tickets"
-            },
-            {
-              "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 5
-                }
-              },
-              "name": "version"
-            },
-            {
-              "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 6
-                }
-              },
-              "name": "tickets_code_hash"
+              "name": "verifiers"
             }
           ],
-          "name": "TicketingSystem"
+          "name": "SsiSystem"
         }
       },
       "root_key": "0x00000000"
@@ -834,76 +283,176 @@
       "id": 1,
       "type": {
         "def": {
-          "sequence": {
-            "type": 0
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 2
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 3
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
           }
-        }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 2
+          },
+          {
+            "name": "E",
+            "type": 3
+          }
+        ],
+        "path": [
+          "Result"
+        ]
       }
     },
     {
       "id": 2,
       "type": {
         "def": {
-          "composite": {
-            "fields": [
-              {
-                "type": 3,
-                "typeName": "[u8; 32]"
-              }
-            ]
-          }
-        },
-        "path": [
-          "ink_primitives",
-          "types",
-          "AccountId"
-        ]
+          "tuple": []
+        }
       }
     },
     {
       "id": 3,
       "type": {
         "def": {
-          "array": {
-            "len": 32,
-            "type": 4
-          }
-        }
-      }
-    },
-    {
-      "id": 4,
-      "type": {
-        "def": {
-          "primitive": "u8"
-        }
-      }
-    },
-    {
-      "id": 5,
-      "type": {
-        "def": {
-          "primitive": "u32"
-        }
-      }
-    },
-    {
-      "id": 6,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
+          "variant": {
+            "variants": [
               {
-                "type": 3,
-                "typeName": "[u8; 32]"
+                "index": 1,
+                "name": "CouldNotReadInput"
               }
             ]
           }
         },
         "path": [
           "ink_primitives",
-          "types",
-          "Hash"
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 5
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 3
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 5
+          },
+          {
+            "name": "E",
+            "type": 3
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 2
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 6
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 2
+          },
+          {
+            "name": "E",
+            "type": 6
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "AlreadyRegisteredAsIssuer"
+              },
+              {
+                "index": 1,
+                "name": "AlreadyRegisteredAsVerifier"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ssi_system",
+          "ssi_system",
+          "Error"
         ]
       }
     },
@@ -925,7 +474,7 @@
               {
                 "fields": [
                   {
-                    "type": 9
+                    "type": 3
                   }
                 ],
                 "index": 1,
@@ -941,7 +490,7 @@
           },
           {
             "name": "E",
-            "type": 9
+            "type": 3
           }
         ],
         "path": [
@@ -953,8 +502,33 @@
       "id": 8,
       "type": {
         "def": {
-          "tuple": []
-        }
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          }
+        ],
+        "path": [
+          "Option"
+        ]
       }
     },
     {
@@ -964,15 +538,29 @@
           "variant": {
             "variants": [
               {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 10
+                  }
+                ],
                 "index": 1,
-                "name": "CouldNotReadInput"
+                "name": "Some"
               }
             ]
           }
         },
+        "params": [
+          {
+            "name": "T",
+            "type": 10
+          }
+        ],
         "path": [
-          "ink_primitives",
-          "LangError"
+          "Option"
         ]
       }
     },
@@ -980,41 +568,19 @@
       "id": 10,
       "type": {
         "def": {
-          "variant": {
-            "variants": [
+          "composite": {
+            "fields": [
               {
-                "fields": [
-                  {
-                    "type": 11
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
+                "type": 11,
+                "typeName": "[u8; 32]"
               }
             ]
           }
         },
-        "params": [
-          {
-            "name": "T",
-            "type": 11
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
         "path": [
-          "Result"
+          "ink_primitives",
+          "types",
+          "AccountId"
         ]
       }
     },
@@ -1022,572 +588,23 @@
       "id": 11,
       "type": {
         "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 8
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 8
-          },
-          {
-            "name": "E",
+          "array": {
+            "len": 32,
             "type": 12
           }
-        ],
-        "path": [
-          "Result"
-        ]
+        }
       }
     },
     {
       "id": 12,
       "type": {
         "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "AlreadyRegisteredAsUser"
-              },
-              {
-                "index": 1,
-                "name": "NotRegisteredAsUser"
-              },
-              {
-                "index": 2,
-                "name": "AlreadyRegisteredAsOrganizer"
-              },
-              {
-                "index": 3,
-                "name": "NotRegisteredAsOrganizer"
-              },
-              {
-                "index": 4,
-                "name": "NoSuchEventRegistered"
-              },
-              {
-                "index": 5,
-                "name": "NoEventsRegistered"
-              },
-              {
-                "index": 6,
-                "name": "InvalidTier"
-              },
-              {
-                "index": 7,
-                "name": "InvalidToken"
-              },
-              {
-                "index": 8,
-                "name": "TokenExists"
-              },
-              {
-                "index": 9,
-                "name": "NotOwner"
-              },
-              {
-                "index": 10,
-                "name": "NoSeatsAvailable"
-              },
-              {
-                "index": 11,
-                "name": "NotAllowed"
-              },
-              {
-                "index": 12,
-                "name": "CannotFetchValue"
-              },
-              {
-                "index": 13,
-                "name": "SomethingWentWrong"
-              }
-            ]
-          }
-        },
-        "path": [
-          "ticketing_system",
-          "ticketing_system",
-          "Error"
-        ]
-      }
-    },
-    {
-      "id": 13,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 14
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 14
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 14,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "None"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 0
-                  }
-                ],
-                "index": 1,
-                "name": "Some"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 0
-          }
-        ],
-        "path": [
-          "Option"
-        ]
-      }
-    },
-    {
-      "id": 15,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 5
-          }
+          "primitive": "u8"
         }
       }
     },
     {
-      "id": 16,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 17
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 17
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 17,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 1
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 1
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 18,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 19
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 19
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 19,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 5
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 5
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 20,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 21
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 21
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 21,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 0
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 0
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 22,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 23
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 23
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 23,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 2
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 2
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 24,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "None"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 2
-                  }
-                ],
-                "index": 1,
-                "name": "Some"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 2
-          }
-        ],
-        "path": [
-          "Option"
-        ]
-      }
-    },
-    {
-      "id": 25,
+      "id": 13,
       "type": {
         "def": {
           "primitive": "u128"
@@ -1595,7 +612,27 @@
       }
     },
     {
-      "id": 26,
+      "id": 14,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 11,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 15,
       "type": {
         "def": {
           "primitive": "u64"
@@ -1603,7 +640,15 @@
       }
     },
     {
-      "id": 27,
+      "id": 16,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 17,
       "type": {
         "def": {
           "variant": {}

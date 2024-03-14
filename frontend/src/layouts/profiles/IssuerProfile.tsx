@@ -281,9 +281,6 @@ const IssuerProfile = () => {
                                         {/* {upcomingEvents.length != 0 ? */}
 
                                             <PendingRequestsCard />
-                                            <PendingRequestsCard />
-                                            <PendingRequestsCard />
-                                            <PendingRequestsCard />
 
                                             {/* :
                                             <div className={"p-8 flex flex-col items-center"}>
@@ -369,11 +366,14 @@ const IssuerProfile = () => {
                                                     <div className="flex justify-center items-center flex-wrap">
 
                                                         <IssuerProfileSettings
-                                                            id="123"
-                                                            name="Nikhil Magar"
-                                                            email="nikhil@gmail.com"
-                                                            govId="489579457938"
-                                                            type="Student VC Issuer"
+                                                            id={issuerData?.id}
+                                                            did={issuerData?.publicDid}
+                                                            name={issuerData?.name}
+                                                            email={issuerData?.email}
+                                                            govId={issuerData?.govId}
+                                                            type={issuerData?.type}
+                                                            walletId={issuerData?.walletId}
+                                                            transactionId = {issuerData?.transactionId}  
                                                         />
 
                                                     </div>

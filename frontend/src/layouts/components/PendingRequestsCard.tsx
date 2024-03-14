@@ -1,79 +1,83 @@
 import { useRouter } from "next/navigation";
-import PendingCardModal from "./PendingCardModal";
 import { MdRemoveRedEye } from "react-icons/md";
+import { GetPendingRequests } from "@/constants/endpoints/IssuerEndpoints";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import PendingContent from "./pendingContent";
 
 
-
-
+interface UserProps {
+    userDid: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    dateOfBirth: string;
+    gender: string;
+    placeOfBirth: string;
+    proofId: string;
+    docType: string;
+}
 
 const PendingRequestsCard = () => {
-
-
     const router = useRouter();
+    const [users, setUsers] = useState<UserProps[]>([]);
+    const [selectedUser, setSelectedUser] = useState<UserProps | null>(null);
 
+    useEffect(() => {
+        fetchUserDetails();
+    }, []);
 
-    //     "userDid": "string",
-    //   "firstName": "string",
-    //   "lastName": "string",
-    //   "address": "string",
-    //   "dateOfBirth": "string",
-    //   "gender": "string",
-    //   "placeOfBirth": "string",
-    //   "proofId": "string",
-    //   "docType": "string",
+    const fetchUserDetails = async () => {
+        toast.dismiss()
+        toast.loading('Fetching pending requests')
 
+        try {
+            const res = await fetch(`${GetPendingRequests}392116768483573825`);
+            const result = await res.json();
 
+            if (res.ok) {
+                const userData: UserProps[] = result.map((data: any) => ({
+                    userDid: data.userDid,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    address: data.address,
+                    dateOfBirth: data.dateOfBirth,
+                    gender: data.gender,
+                    placeOfBirth: data.placeOfBirth,
+                    proofId: data.proofId,
+                    docType: data.docType,
+                }));
 
-
-    const user = {
-        userDid: "did:ethr:77da159a09fc210f268ce9e3be5b02e0a9c879a6",
-        firstName: "Nikhil",
-        lastName: "Magar",
-        address: "Gaothan, Shivajinagar, Pune",
-        dateOfBirth: "25/10/2001",
-        gender: "Male",
-        placeOfBirth: "Pune",
-        proofId: "https://firebasestorage.googleapis.com/v0/b/concert-ticketing-system-67922.appspot.com/o/fdd3da7f-72a3-4792-b291-150fef559f4f.png?alt=media",
-        docType: "Passport",
+                setUsers(userData);
+                toast.dismiss();
+                toast.success('Pending requests fetched successfully!');
+            } else {
+                console.error("Error loading venues");
+                toast.dismiss();
+                toast.error('Failed fetching pending requests');
+            }
+        } catch (error) {
+            console.error("Error loading venues", error);
+            toast.dismiss();
+            toast.error('Failed fetching pending requests');
+        }
     };
 
 
-    const handleCardClick = () => {
-        const pendingCardModal = document.getElementById("pendingCardModal");
-        pendingCardModal?.classList.add("show");
-    }
 
 
     return (
         <>
-            <PendingCardModal user={user} />
-            <div className="pl-3 pb-3">
-                <div onClick={handleCardClick} className="rounded-lg bg-white dark:bg-darkmode-theme-light p-8 shadow-md hover:shadow-lg dark:hover:bg-gray-700 hover:bg-gray-200 relative h-full w-auto cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-1">
-                    {/* <div> */}
-                    <div className="flex justify-between">
-                        <h3 className="text-xl font-bold">Nikhil Magar</h3>
-                        <MdRemoveRedEye size={'24px'}/>
-                    </div>
-
-                        <div className="py-3">
-                                <hr className="h-px w-full dark:bg-gray-600 border-0 bg-gray-200" />
-                            </div>
-                        <p className="text-sm text-gray-700 dark:text-gray-300 mb-2"><span className="font-semibold">Decentralized Identifier:</span> did:ethr:77da159a09fc210f268ce9e3be5b02e0a9c879a6</p>
-                        <p className="text-sm text-gray-700 dark:text-gray-300"><span className="font-semibold">Address:</span> Gaothan, Shivajinagar, Pune</p>
-                    {/* </div> */}
-                    {/* <div>
-                       
-                    </div> */}
-                      
+            {users.map((user) => (
+                <div key={user.userDid}>
+                    <PendingContent user={user} />
                 </div>
-             
-                
-            </div>
+
+            ))}
 
 
         </>
-    )
-}
-
+    );
+};
 
 export default PendingRequestsCard;

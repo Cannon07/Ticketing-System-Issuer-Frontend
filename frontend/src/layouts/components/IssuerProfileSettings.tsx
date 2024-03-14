@@ -1,14 +1,9 @@
 "use client"
 
 import React, { useEffect, useState, useRef } from 'react';
-import { generateHash } from '@/lib/utils/hashGenerator';
-import { useContract, useTx } from 'useink';
-import { CONTRACT_ADDRESS } from '@/constants/contract_constants/ContractAddress';
-import metadata from '@/constants/contract_constants/assets/TicketingSystem.json';
-import { useTxNotifications } from 'useink/notifications';
+
 import toast from 'react-hot-toast';
-import { PostImage } from '@/constants/endpoints/ImageEndpoints';
-import { UpdateOrganizerById } from '@/constants/endpoints/OrganizerEndpoints';
+
 
 // interface OrganizerDataProps {
 //     id: string,
@@ -24,16 +19,19 @@ import { UpdateOrganizerById } from '@/constants/endpoints/OrganizerEndpoints';
 
 interface organizerDataI {
     id: string | undefined,
+    did: string | undefined,
     name: string | undefined,
     email: string | undefined,
     govId: string | undefined,
     type: string | undefined,
+    walletId: string | undefined,
+    transactionId: string | undefined,
 
 }
 
-const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, name, email, govId, type }) => {
+const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, did, name, email, govId, type, walletId, transactionId }) => {
 
-  
+
 
 
 
@@ -44,13 +42,13 @@ const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, name, email, govI
     const [issuerEmail, setissuerEmail] = useState(email);
     const [identity, setIdentity] = useState<string | undefined>(govId);
     const [iType, setIType] = useState(type)
-    
 
-   
+
+
     const [originalName, setOriginalName] = useState(name);
     const [originalEmail, setOriginalEmail] = useState(email);
     const [originalIdentity, setOriginalIdentity] = useState<string | undefined>(govId);
-    const [orginalIType,setOriginalItype] = useState(type)
+    const [orginalIType, setOriginalItype] = useState(type)
 
 
 
@@ -108,17 +106,17 @@ const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, name, email, govI
         setOriginalEmail(email);
         setOriginalIdentity(govId);
         setOriginalItype(type);
-  
+
     };
 
     const handleSaveChanges = (e: any) => {
         e.preventDefault();
         if (issuerName === "") toast.error("Name cannot be empty!");
         else if (issuerEmail === "") toast.error("Email cannot be empty!");
-        else if (identity==="") toast.error("Adhar number cannot be empty!");
-        else if(identity && identity.length<12) toast.error("Adhar number must be of 12 digits")
-        else if(type){
-           setIsEditing(false)
+        else if (identity === "") toast.error("Adhar number cannot be empty!");
+        else if (identity && identity.length < 12) toast.error("Adhar number must be of 12 digits")
+        else if (type) {
+            setIsEditing(false)
         }
     };
 
@@ -142,6 +140,19 @@ const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, name, email, govI
                             <div className="py-4">
                                 <hr className="h-px w-full dark:bg-gray-600 border-0 bg-gray-200" />
                             </div>}
+
+
+                        {!isEditing && <div className={`mb-4 flex justify-between`}>
+                            <label htmlFor="email" className="form-label-profile">
+                                DID
+                            </label>
+
+                            <div>{did}</div>
+
+                        </div>
+                        }
+
+
 
                         <div className={`mb-4 ${isEditing ? '' : 'flex justify-between'}`}>
                             <label htmlFor="name" className="form-label-profile">
@@ -216,7 +227,28 @@ const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, name, email, govI
                             )}
                         </div>
 
-                       
+                        {!isEditing && <div className={`mb-4 flex justify-between`}>
+                            <label htmlFor="email" className="form-label-profile">
+                                Wallet Id
+                            </label>
+
+                            <div>{walletId}</div>
+
+                        </div>}
+
+                        {!isEditing && <div className={`mb-4 flex justify-between`}>
+                            <label htmlFor="email" className="form-label-profile">
+                                Transaction Id
+                            </label>
+
+                            <div>{transactionId}</div>
+
+                        </div>
+                        }
+
+
+
+
                     </div>
 
 
