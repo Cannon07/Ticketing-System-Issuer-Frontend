@@ -22,9 +22,12 @@ interface IssuerData {
   type: string,
   publicDid: string,
   walletId: string,
-  transactionId: string,
 }
 
+interface Data {
+  id: string;
+  expiresAt: number;
+}
 
 const RegisterModal = () => {
 
@@ -142,17 +145,16 @@ const RegisterModal = () => {
       console.log(response)
   
       if (response.ok) {
-        // const result = await response.json();
-        // console.log(result)
+        const result = await response.json();
+        console.log(result)
         let newIssuerData: IssuerData = {
-          id: "12233",
+          id: result.statusBody.id,
           name: fullname,
           email: email,
           govId: govId,
           type: type,
-          publicDid: "1313",
+          publicDid: result.statusBody.publicDid,
           walletId: walletAddress,
-          transactionId: "234234",
         }
         setIssuerData(newIssuerData);
         toast.success("User Registered!")
@@ -162,9 +164,10 @@ const RegisterModal = () => {
         setType("");
         setPassword("");
         setConfirmPassword("");
-        registerIssuer.signAndSend(["did:123123"]);
+        registerIssuer.signAndSend([result.statusBody.publicDid]);
         const registerModal = document.getElementById("registerModal");
         registerModal!.classList.remove("show");
+        saveData('IssuerId',result.statusBody.id,3600);
       } else {
         toast.dismiss()
         toast.error('Failed to register issuer')
@@ -185,6 +188,7 @@ const RegisterModal = () => {
     else if (password === "") toast.error("Please enter password")
     else if (confirmPassword === "") toast.error("Please enter confirm password")
     else if(password!==confirmPassword) toast.error("Password Mismatched!")
+    else if(walletAddress==="") toast.error("Please connect to wallet for wallet address")
     else {
           
           saveIssuer()
@@ -198,6 +202,14 @@ const RegisterModal = () => {
     registerModal?.classList.remove("show");
     loginModal?.classList.add("show");
   }
+
+  const saveData = (issuerId: string, id: string, expirationTime: number): void => {
+    const data: Data = {
+        id: id,
+        expiresAt: new Date().getTime() + expirationTime * 1000 // expirationTime is in seconds
+    };
+    localStorage.setItem(issuerId, JSON.stringify(data));
+}
 
 
 

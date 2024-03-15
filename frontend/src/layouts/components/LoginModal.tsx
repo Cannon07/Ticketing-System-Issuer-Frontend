@@ -21,7 +21,11 @@ interface IssuerData {
   type: string,
   publicDid: string,
   walletId: string,
-  transactionId: string,
+}
+
+interface Data {
+  id: string;
+  expiresAt: number;
 }
 
 const LoginModal = () => {
@@ -89,7 +93,6 @@ const LoginModal = () => {
         type: result.type,
         publicDid: result.publicDid,
         walletId: result.walletId,
-        transactionId: "94954534",
       }
       setIssuerData(newIssuerData);
       toast.dismiss()
@@ -98,7 +101,7 @@ const LoginModal = () => {
       setPassword("");
       const loginModal = document.getElementById("loginModal");
       loginModal!.classList.remove("show");
-
+      saveData('IssuerId',result.id,3600);
     }
     else {
       toast.dismiss()
@@ -107,6 +110,15 @@ const LoginModal = () => {
     }
   }
 
+  const saveData = (issuerId: string, id: string, expirationTime: number): void => {
+    const data: Data = {
+      id: id,
+      expiresAt: new Date().getTime() + expirationTime * 1000 // expirationTime is in seconds
+    };
+    localStorage.setItem(issuerId, JSON.stringify(data));
+  }
+
+
 
 
   const handleLoginClick = async () => {
@@ -114,6 +126,7 @@ const LoginModal = () => {
     else if (password === "") toast.error("Please enter password");
     else {
       logIn()
+
     }
   }
 

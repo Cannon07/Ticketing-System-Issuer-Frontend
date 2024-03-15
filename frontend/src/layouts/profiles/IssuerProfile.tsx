@@ -55,7 +55,7 @@ const IssuerProfile = () => {
 
     const { issuerData, setIssuerData } = useGlobalContext();
     const router = useRouter();
-    const [tab, setTab] = useState('Hosted Events')
+    const [tab, setTab] = useState('Pending Requests')
     // const [image, setImage] = useState(organizerData?.profileImg);
     const [eventsData, setEventsData] = useState<eventsDataI[]>([])
     const currentDateAndTime = new Date();
@@ -194,8 +194,8 @@ const IssuerProfile = () => {
 
                                             <div className="flex flex-col items-center p-2 gap-2 rounded-lg">
 
-                                                <div className="w-44 h-44 overflow-hidden rounded-full bg-gray-700 flex items-center justify-center">
-                                                    <h1 className="text-white text-4xl">NM</h1>
+                                                <div className="w-44 h-44 overflow-hidden rounded-full bg-yellow-900 flex items-center justify-center">
+                                                    <h1 className="text-white text-8xl pt-2">N</h1>
                                                 </div>
 
                                                 <span className="text-xl">Nikhil Magar</span>
@@ -373,7 +373,6 @@ const IssuerProfile = () => {
                                                             govId={issuerData?.govId}
                                                             type={issuerData?.type}
                                                             walletId={issuerData?.walletId}
-                                                            transactionId = {issuerData?.transactionId}  
                                                         />
 
                                                     </div>

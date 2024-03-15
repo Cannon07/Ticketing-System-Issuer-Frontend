@@ -11,7 +11,6 @@ interface IssuerData {
   type: string,
   publicDid: string,
   walletId: string,
-  transactionId: string,
 }
 
 interface ContextProps{

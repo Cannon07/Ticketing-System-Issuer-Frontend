@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 const NotRegistered = () => {
 
     const router = useRouter()
+    const registerModal = document.getElementById("registerModal");
+
     return (
       <>
   
@@ -20,11 +22,11 @@ const NotRegistered = () => {
                   </p>
                   <p>
                     <strong>
-                      To access this page, you need to register as organizer first.
+                      To access this page, you need to register as Issuer first.
                     </strong>{" "}
                  
                   </p>
-                  <button className="btn-sm btn-primary" onClick={()=>router.push('/register-organizer')}>Register Now</button>
+                  <button className="btn-sm btn-primary" onClick={()=>  registerModal?.classList.add("show")}>Register Now</button>
                 </div>
   
               </div>

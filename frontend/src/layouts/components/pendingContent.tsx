@@ -25,7 +25,6 @@ interface User {
 
 
 interface UserCardProps {
-
     user: User;
 }
 

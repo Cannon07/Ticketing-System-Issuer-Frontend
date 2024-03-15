@@ -25,11 +25,10 @@ interface organizerDataI {
     govId: string | undefined,
     type: string | undefined,
     walletId: string | undefined,
-    transactionId: string | undefined,
 
 }
 
-const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, did, name, email, govId, type, walletId, transactionId }) => {
+const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, did, name, email, govId, type, walletId,}) => {
 
 
 
@@ -236,15 +235,7 @@ const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, did, name, email,
 
                         </div>}
 
-                        {!isEditing && <div className={`mb-4 flex justify-between`}>
-                            <label htmlFor="email" className="form-label-profile">
-                                Transaction Id
-                            </label>
-
-                            <div>{transactionId}</div>
-
-                        </div>
-                        }
+                    
 
 
 
