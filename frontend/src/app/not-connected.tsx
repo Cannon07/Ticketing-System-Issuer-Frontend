@@ -16,9 +16,6 @@ const NotConnected = () => {
                 In order to register, you must first establish a connection to your wallet. This connection is necessary for account creation.
 
 
-
-
-
               </p>
               <p>
                 {/* <strong>

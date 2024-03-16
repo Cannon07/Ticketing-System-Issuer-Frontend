@@ -59,6 +59,7 @@ export const IssuerLogin = () => {
       e.preventDefault();
       localStorage.removeItem("IssuerId");
       setIssuerData(null);
+      
     }
 
 
