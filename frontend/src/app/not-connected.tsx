@@ -5,29 +5,33 @@ const NotConnected = () => {
   return (
     <>
 
-      <section className="section-sm text-center">
-        <div className="container">
-          <div className="row justify-center">
-            <div className="sm:col-10 md:col-8 lg:col-6">
-              <h1 className="h2 mb-4">Page Not Available</h1>
-              <div className="content">
-                <p>
-                  We are sorry, but it seems like the page you are looking for is
-                  temporarily unavailable.
-                </p>
-                <p>
-                  <strong>
+
+      <div className="flex items-center justify-center text-center p-12">
+        <div className="row justify-center">
+          <div className="w-full">
+            <h1 className="h2 mb-4l">Connect to Wallet</h1>
+            <div className="content">
+              <p>
+
+                In order to register, you must first establish a connection to your wallet. This connection is necessary for account creation.
+
+
+
+
+
+              </p>
+              <p>
+                {/* <strong>
                     To access this page, you need to connect to a wallet first.
-                  </strong>{" "}
+                  </strong>{" "} */}
 
-                </p>
-              </div>
-
+              </p>
             </div>
+
           </div>
         </div>
+      </div>
 
-      </section>
 
     </>
   );

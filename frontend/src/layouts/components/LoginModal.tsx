@@ -186,7 +186,7 @@ const LoginModal = () => {
               </div>
             </div>
             <div className="w-full sm:px-4 md:px-8 lg:px-12">
-              <button onClick={handleLoginClick} className={"btn btn-primary w-full"}>
+              <button type="submit" onClick={handleLoginClick} className={"btn btn-primary w-full"}>
                 <h5 className={"text-white dark:text-dark flex justify-center"}>Login</h5>
               </button>
             </div>
