@@ -2,7 +2,7 @@ import { BaseURL } from "./BaseURL";
 
 
 // GET
-export const GetIssuerById = `${BaseURL}/issuers/id?id=`
+export const GetIssuerById = `${BaseURL}/issuers/id?id=`;
 export const GetIssuerByWalletId = `${BaseURL}/issuers/wallet?id=`;
 export const GetPendingRequests =`${BaseURL}/issuers/pending?id=`;
 export const GetRejectedRequests = `${BaseURL}/issuers/rejected?id=`;
@@ -16,5 +16,6 @@ export const PostIssueVC = `${BaseURL}/issuers/issueVC`;
 
 
 // PUT
+export const PutIssuerByDid = `${BaseURL}/issuers/update/did?did=`;
 export const PutRejectRequest = `${BaseURL}/issuers/reject`;
 

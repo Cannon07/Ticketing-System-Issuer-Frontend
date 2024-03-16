@@ -10,45 +10,6 @@ import toast from "react-hot-toast";
 import PendingRequestsCard from "@/components/PendingRequestsCard";
 import IssuerProfileSettings from "@/components/IssuerProfileSettings";
 
-interface artistI {
-    id: string,
-    name: string,
-    userName: string,
-    email: string,
-    govId: string,
-    profileImg: string,
-}
-
-interface tiersI {
-    id: string,
-    name: string,
-    capacity: number,
-    price: number,
-}
-
-interface venueI {
-    id: string,
-    name: string,
-    address: string,
-    capacity: number,
-    placeId: string,
-}
-
-
-
-interface eventsDataI {
-    id: string,
-    name: string,
-    dateAndTime: string,
-    description: string,
-    eventDuration: string,
-    imageUrls: string[],
-    categoryList: string[],
-    venueId: venueI,
-    artists: artistI[],
-    tiers: tiersI[],
-    transactionId: string,
-}
 
 
 const IssuerProfile = () => {
@@ -56,44 +17,7 @@ const IssuerProfile = () => {
     const { issuerData, setIssuerData } = useGlobalContext();
     const router = useRouter();
     const [tab, setTab] = useState('Pending Requests')
-    // const [image, setImage] = useState(organizerData?.profileImg);
-    const [eventsData, setEventsData] = useState<eventsDataI[]>([])
-    const currentDateAndTime = new Date();
-
-    const [upcomingEvents, setUpcomingEvents] = useState<eventsDataI[]>([]);
-    const [pastEvents, setPastEvents] = useState<eventsDataI[]>([]);
-
-
-    const filterEvents = (events: eventsDataI[]) => {
-
-        const upcoming: eventsDataI[] = [];
-        const past: eventsDataI[] = [];
-
-        events.forEach(event => {
-            const eventDateAndTime = new Date(event.dateAndTime);
-
-            if (eventDateAndTime > currentDateAndTime) {
-                upcoming.push(event);
-            } else {
-                past.push(event);
-            }
-        });
-
-
-        past.sort((a, b) => new Date(b.dateAndTime).getTime() - new Date(a.dateAndTime).getTime());
-
-        upcoming.sort((a, b) => new Date(a.dateAndTime).getTime() - new Date(b.dateAndTime).getTime());
-
-        setUpcomingEvents(upcoming);
-        setPastEvents(past);
-    };
-
-
-    useEffect(() => {
-        filterEvents(eventsData);
-    }, [eventsData]);
-
-
+   
 
 
     return (
@@ -109,15 +33,15 @@ const IssuerProfile = () => {
 
                                             <li>
 
-                                                <div className="flex flex-col items-center p-2 gap-2 rounded-lg">
+                                            <div className="flex flex-col items-center p-2 gap-2 rounded-lg">
 
-                                                    <div className="w-44 h-44 overflow-hidden rounded-full bg-gray-700 flex items-center justify-center">
-                                                        <h1 className="text-white text-4xl">NM</h1>
-                                                    </div>
-
-                                                    <span className="text-xl">Nikhil Magar</span>
-
+                                                <div className="w-44 h-44 overflow-hidden rounded-full bg-yellow-900 flex items-center justify-center">
+                                                    <h1 className="text-white text-8xl pt-2">{issuerData?.name[0]}</h1>
                                                 </div>
+
+                                                <span className="text-xl">{issuerData?.name}</span>
+
+                                            </div>
 
                                             </li>
 
@@ -195,16 +119,14 @@ const IssuerProfile = () => {
                                             <div className="flex flex-col items-center p-2 gap-2 rounded-lg">
 
                                                 <div className="w-44 h-44 overflow-hidden rounded-full bg-yellow-900 flex items-center justify-center">
-                                                    <h1 className="text-white text-8xl pt-2">N</h1>
+                                                    <h1 className="text-white text-8xl pt-2">{issuerData?.name[0]}</h1>
                                                 </div>
 
-                                                <span className="text-xl">Nikhil Magar</span>
+                                                <span className="text-xl">{issuerData?.name}</span>
 
                                             </div>
 
                                         </li>
-
-
 
                                         <div className="py-4">
                                             <hr className="h-px w-full dark:bg-gray-600 border-0 bg-gray-200" />
@@ -308,7 +230,7 @@ const IssuerProfile = () => {
                                     tab === 'Issued Requests' ? (
                                         <div className="flex justify-center items-center h-full flex-wrap">
 
-                                            {pastEvents.length != 0 ?
+                                            {/* {pastEvents.length != 0 ?
                                                 <PastHostingsCard eventsData={pastEvents} />
                                                 :
                                                 <div className={"p-8 flex flex-col items-center"}>
@@ -328,7 +250,8 @@ const IssuerProfile = () => {
                                                         Explore Now
                                                     </button>
                                                 </div>
-                                            }
+                                            } */}
+                                            issued requests
                                         </div>
 
                                     ) :
@@ -337,7 +260,7 @@ const IssuerProfile = () => {
                                             tab === 'Rejected Requests' ? (
                                                 <div className="flex justify-center items-center h-full flex-wrap">
 
-                                                {pastEvents.length != 0 ?
+                                                {/* {pastEvents.length != 0 ?
                                                     <PastHostingsCard eventsData={pastEvents} />
                                                     :
                                                     <div className={"p-8 flex flex-col items-center"}>
@@ -357,7 +280,9 @@ const IssuerProfile = () => {
                                                             Explore Now
                                                         </button>
                                                     </div>
-                                                }
+                                                } */}
+
+                                                rejectedRequests
                                             </div>
 
                                             ) : (
@@ -373,7 +298,9 @@ const IssuerProfile = () => {
                                                             govId={issuerData?.govId}
                                                             type={issuerData?.type}
                                                             walletId={issuerData?.walletId}
+                                                            setIssuerData = {setIssuerData}
                                                         />
+                                                       
 
                                                     </div>
 

@@ -1,23 +1,27 @@
 "use client"
 
-import React, { useEffect, useState, useRef } from 'react';
+import { useGlobalContext } from '@/app/context/globalContext';
+import { PutIssuerByDid } from '@/constants/endpoints/IssuerEndpoints';
+import React, { useEffect, useState, useRef, SetStateAction, Dispatch } from 'react';
 
 import toast from 'react-hot-toast';
 
 
-// interface OrganizerDataProps {
-//     id: string,
-//     name: string,
-//     email: string,
-//     govId: string,
-//     walletId: string,
-//     transactionId: string,
-//     organisedEvents: string[]
-//     profileImg: string,
-//   }
 
 
-interface organizerDataI {
+interface IssuerData {
+    id: string,
+    name: string,
+    email: string,
+    govId: string,
+    type: string,
+    publicDid: string,
+    walletId: string,
+  }
+  
+
+
+interface issuerDataI {
     id: string | undefined,
     did: string | undefined,
     name: string | undefined,
@@ -25,16 +29,18 @@ interface organizerDataI {
     govId: string | undefined,
     type: string | undefined,
     walletId: string | undefined,
+    setIssuerData: Dispatch<SetStateAction<IssuerData | null>>
 
 }
 
-const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, did, name, email, govId, type, walletId,}) => {
+const IssuerProfileSettings: React.FC<issuerDataI> = ({ id, did, name, email, govId, type, walletId,setIssuerData}) => {
 
 
 
 
 
 
+ 
     const [isEditing, setIsEditing] = useState(false);
 
     const [issuerName, setissuerName] = useState(name);
@@ -53,51 +59,55 @@ const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, did, name, email,
 
 
 
-    //   const putOrganizer = async (txId: string, imageUrl: string | undefined) => {
-    //     toast.loading('Updating organizer..')
-    //     var myHeaders = new Headers();
-    //     myHeaders.append("Content-Type", "application/json");
+      const PutIssuer = async () => {
+        toast.loading('Updating Issuer..')
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
 
-    //     var raw = JSON.stringify({
-    //       "name": issuerName,
-    //       "email": issuerEmail,
-    //       "govId": identity,
-    //       "walletId": walletId,
-    //       "transactionId": txId,
-    //       "profileImg": imageUrl,
-    //     });
+        var raw = JSON.stringify({
+            "name": issuerName,
+            "email": issuerEmail,
+            "govId": identity,
+            "type": iType,
+            
+          });
 
-    //     console.log(raw);
+        console.log(raw);
 
-    //     var requestOptions = {
-    //       method: 'PUT',
-    //       headers: myHeaders,
-    //       body: raw,
-    //     };
+        var requestOptions = {
+          method: 'PUT',
+          headers: myHeaders,
+          body: raw,
+        };
 
-    //     let response = await fetch(`${UpdateOrganizerById}${id}`, requestOptions)
-    //     if (response.ok) {
-    //       let result = await response.json();
-    //       setTransId(txId);
-    //       console.log(result)
-    //       toast.dismiss()
-    //       toast.success("Organizer Updated!")
-    //       setLoading(false)
-    //       const orgData = {
-    //             id: id ? id.toString() : "",
-    //             name: issuerName ? issuerName.toString() : "",
-    //             email: issuerEmail ? issuerEmail.toString() : "",
-    //             govId: identity ? identity.toString() : "",
-    //             walletId: walletId ? walletId.toString() : "",
-    //             transactionId: txId ? txId.toString() : "",
-    //             organisedEvents:  Array.isArray(organizedEvents) ? organizedEvents : (organizedEvents ? [organizedEvents] : []),
-    //             profileImg: imageUrl ? imageUrl.toString() : "",
-    //         };
+        let response = await fetch(`${PutIssuerByDid}${did}`, requestOptions)
 
-    //       setOrganizerData(orgData);
+        if (response.ok) {
 
-    //     }
-    // }
+          let result = await response.json();
+          console.log(result)
+          toast.dismiss()
+          toast.success("Issuer Updated!")
+
+          const issuerData = {
+                id: id ? id.toString() : "",
+                name: issuerName ? issuerName.toString() : "",
+                email: issuerEmail ? issuerEmail.toString() : "",
+                govId: identity ? identity.toString() : "",
+                type: iType ? iType.toString() : "",
+                publicDid: did ? did.toString() : "",
+                walletId: walletId ? walletId.toString() : "",
+            };
+
+          setIssuerData(issuerData);
+          setIsEditing(false)
+
+        }
+        else{
+            toast.dismiss();
+            toast.error("Failed to update issuer data")
+        }
+    }
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -115,7 +125,8 @@ const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, did, name, email,
         else if (identity === "") toast.error("Adhar number cannot be empty!");
         else if (identity && identity.length < 12) toast.error("Adhar number must be of 12 digits")
         else if (type) {
-            setIsEditing(false)
+            PutIssuer()
+       
         }
     };
 
@@ -234,10 +245,6 @@ const IssuerProfileSettings: React.FC<organizerDataI> = ({ id, did, name, email,
                             <div>{walletId}</div>
 
                         </div>}
-
-                    
-
-
 
 
                     </div>

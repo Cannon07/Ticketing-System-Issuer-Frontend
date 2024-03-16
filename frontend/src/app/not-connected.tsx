@@ -17,14 +17,7 @@ const NotConnected = () => {
 
 
               </p>
-              <p>
-                {/* <strong>
-                    To access this page, you need to connect to a wallet first.
-                  </strong>{" "} */}
-
-              </p>
             </div>
-
           </div>
         </div>
       </div>

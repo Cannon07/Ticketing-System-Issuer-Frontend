@@ -174,7 +174,7 @@ const LoginModal = () => {
                       id="password"
                       name="password"
                       className="form-input w-full"
-                      placeholder="Enter your email"
+                      placeholder="Enter your password"
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
