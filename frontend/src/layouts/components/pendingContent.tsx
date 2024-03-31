@@ -1,20 +1,11 @@
 import React, { useState } from 'react'
-import { MdRemoveRedEye } from 'react-icons/md';
-import { FcApprove } from "react-icons/fc";
-import { FcCheckmark } from "react-icons/fc";
-import { CheckmarkIcon } from 'react-hot-toast';
-import { AiOutlineClose } from "react-icons/ai";
-import { PiHourglassLowFill } from "react-icons/pi";
+import { MdOutlineCreditCardOff } from "react-icons/md";
+import { MdOutlineCreditScore } from "react-icons/md";
 import Image from "next/image";
-import { FaRegHourglass } from "react-icons/fa6";
-import { TiTickOutline } from "react-icons/ti";
-import { RxCross2 } from "react-icons/rx";
 import toast from 'react-hot-toast';
 import { useGlobalContext } from '@/app/context/globalContext';
 import { PostIssueVC, PutRejectRequest } from '@/constants/endpoints/IssuerEndpoints';
-
-
-
+import Link from 'next/link';
 
 interface User {
     id: string;
@@ -29,13 +20,13 @@ interface User {
     docType: string;
 }
 
-
 interface UserCardProps {
-    user: User;
+    user: User,
+    userList: User[],
+    setUserList:React.Dispatch<React.SetStateAction<User[]>>,
 }
 
-
-const PendingContent: React.FC<UserCardProps> = ({ user }) => {
+const PendingContent: React.FC<UserCardProps> = ({ user, userList, setUserList }) => {
 
     const [toggle, setToggle] = useState(false);
 
@@ -53,235 +44,127 @@ const PendingContent: React.FC<UserCardProps> = ({ user }) => {
             toast.loading("Rejecting request..", {id: "UpdateUserLoading"})
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
-      
+
             var raw = JSON.stringify({
               "userId": user.id,
               "issuerDid" : issuerData?.publicDid,
             });
-      
+
             console.log(raw);
-      
+
             var requestOptions = {
               method: 'PUT',
               headers: myHeaders,
               body: raw,
             };
-      
+
             let response = await fetch(`${PutRejectRequest}`, requestOptions)
-      
+
             console.log(response);
-      
+
             if (response.ok) {
               toast.dismiss();
               let result = await response.json();
               console.log(result);
-      
-            //   let newUserData: UserData = {
-            //     "id": userData.id,
-            //     "userEmail": userData.userEmail,
-            //     "walletId": userData.walletId,
-            //     "userDetailsId": userDetailsId,
-            //     "transactionId": userData.transactionId,
-            //     "profileImg": userData.profileImg,
-            //   }
-      
-            //   setUserData(newUserData);
-      
-            //   setOriginalFirstName(firstName);
-            //   setOriginalLastName(lastName);
-            //   setOriginalAddress(address);
-            //   setOriginalDateOfBirth(dateOfBirth);
-            //   setOriginalPlaceOfBirth(placeOfBirth);
-            //   setOriginalSelectedGender(selectedGender);
-            //   setOriginalSelectedDocType(selectedDocType);
-            //   setOriginalDocImage(imageUrl);
-      
               toast.success("Request rejected Successfully!", {id: "UserUpdateSuccess"});
-            //   setLoading(false);
+              setUserList(userList.filter(newUser => newUser.id !== user.id));
             } else {
               toast.error("Something went wrong!", {id: "UserUpdateFailure"});
-            //   setLoading(false);
             }
-          
     }
 
     const handleAcceptRequest = async() => {
         toast.loading("Issuing VC..", {id: "UpdateUserLoading"})
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-  
+
         var raw = JSON.stringify({
           "userId": user.id,
           "issuerDid" : issuerData?.publicDid,
         });
-  
+
         console.log(raw);
-  
+
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
           body: raw,
         };
-  
+
         let response = await fetch(`${PostIssueVC}`, requestOptions)
-  
+
         console.log(response);
-  
+
         if (response.ok) {
           toast.dismiss();
           let result = await response.json();
           console.log(result);
-  
-        //   let newUserData: UserData = {
-        //     "id": userData.id,
-        //     "userEmail": userData.userEmail,
-        //     "walletId": userData.walletId,
-        //     "userDetailsId": userDetailsId,
-        //     "transactionId": userData.transactionId,
-        //     "profileImg": userData.profileImg,
-        //   }
-  
-        //   setUserData(newUserData);
-  
-        //   setOriginalFirstName(firstName);
-        //   setOriginalLastName(lastName);
-        //   setOriginalAddress(address);
-        //   setOriginalDateOfBirth(dateOfBirth);
-        //   setOriginalPlaceOfBirth(placeOfBirth);
-        //   setOriginalSelectedGender(selectedGender);
-        //   setOriginalSelectedDocType(selectedDocType);
-        //   setOriginalDocImage(imageUrl);
-  
           toast.success("VC Issued Successfully!", {id: "UserUpdateSuccess"});
-        //   setLoading(false);
+          setUserList(userList.filter(newUser => newUser.id !== user.id));
         } else {
           toast.error("Something went wrong!", {id: "UserUpdateFailure"});
-        //   setLoading(false);
         }
-      
-}
-
+    }
 
     return (
 
-        <div key={user.userDid} className="mb-4">
-            <div onClick={handleCardClick} className={`rounded-lg bg-white dark:bg-darkmode-theme-light p-8 shadow-md h-full w-auto ${!toggle?'dark:hover:bg-gray-700 hover:bg-gray-200 cursor-pointer':''}  `}>
-                {/* <div  className={`flex justify-between items-center ${toggle?'mb-4':''}`}>
-                    <h3 className="text-xl font-bold">{user.firstName} {user.lastName}</h3>
-                    <div className="flex items-center space-x-4">
-                        <div>
-                            <span
-                                className="inline-block"
-                                data-twe-toggle="tooltip"
-                                title="Issue VC">
-                                <button className='btn-sm dark:hover:bg-gray-700 hover:bg-gray-200'>
-                                    <FcCheckmark size={'20px'} />
-                                </button>
+        <div key={user.userDid} className="mb-4 flex">
+            <div onClick={handleCardClick} className={`rounded-l-lg bg-white dark:bg-darkmode-theme-light py-6 pl-6 pr-4 shadow-md h-full w-auto w-full`}>
 
-                            </span>
+                <div className="flex rounded overflow-hidden h-auto gap-4 items-center">
+                    <Link
+                      href={`${user.proofId}`}
+                      target='_blank'
+                    >
+                      <div className="lg:w-[200px] lg:h-[175px] rounded overflow-hidden object-cover hover:opacity-60">
+                          <Image
+                            src={user.proofId}
+                            width={1000}
+                            height={1000}
+                            alt='Preview'
+                            className={"object-cover h-full w-full"}
+                          />
+                      </div>
+                    </Link>
 
-                            <span
-                                className="inline-block"
-                                data-twe-toggle="tooltip"
-                                title="Reject Request">
-                                <button className={"btn-sm dark:hover:bg-gray-700 hover:bg-gray-200"}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
-                                        <path fill="#F44336" d="M21.5 4.5H26.501V43.5H21.5z" transform="rotate(45.001 24 24)"></path><path fill="#F44336" d="M21.5 4.5H26.5V43.501H21.5z" transform="rotate(135.008 24 24)"></path>
-                                    </svg>
-                                </button>
-                            </span>
+                    <div className="">
+                        <div className="flex gap-2 flex-col">
+                            <div>First Name : {user.firstName}</div>
+                            <div>Last Name : {user.lastName}</div>
+                            <div>Gender : {user.gender} </div>
+                            <div>User Did : {user.userDid} </div>
+                            <div>Date Of Birth : {user.dateOfBirth} </div>
                         </div>
                     </div>
-                </div>
-                <hr className={`${toggle?'h-px w-full dark:bg-gray-600 border-0 bg-gray-200 mb-4':'hidden'}`} />
-                <div className=''>
 
-                    {toggle &&
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-                            <p className="text-sm text-gray-700 dark:text-gray-300 col-span-1 mb-2 lg:col-span-3 md:col-span-3">
-                                <span className="font-semibold">Decentralized Identifier: </span>
-                                <span className='hidden md:contents lg:contents'>{user.userDid}</span>
-                                <span className='lg:hidden md:hidden '>
-                                   { truncateString(user.userDid,35)}
-                                </span>
-
-                            </p>
-                            
-                            
-                            <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                                <span className="font-semibold">Document type: </span>
-                                {user.docType}
-                            </p>
-                            <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                                <span className="font-semibold">Date of Birth: </span>
-                                {user.dateOfBirth}
-                            </p>
-
-
-                            <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                                <span className="font-semibold">Place of Birth: </span>
-                                {user.placeOfBirth}
-                            </p>
-                            <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                                <span className="font-semibold">Address: </span>
-                                {user.address}
-                            </p>
-                            <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                                <span className="font-semibold">Gender: </span>
-                                {user.gender}
-                            </p>
-                            <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                                <span className="font-semibold">Proof Id: </span>
-                                <a href={`${user.proofId}`} target="_blank" rel="noopener noreferrer" className="underline hover:dark:text-white hover:text-black">View Document</a>
-                            </p>
-
-                        </div>
-                    }
-
-                </div> */}
-
-                <div className="flex rounded overflow-hidden h-auto">
-                    <div className="w-2/6 h-10">
-                        <Image
-                        src="https://firebasestorage.googleapis.com/v0/b/concert-ticketing-system-67922.appspot.com/o/76de2c13-f980-4efc-8a7a-8aa95e1c0d3f.png?alt=media"
-                        width={1000}
-                        height={1000}
-                        alt='Preview'
-                        />
-                    </div>
-                    <div className="w-4/6">
-                        <div className="ms-4 mb-4">
-                            <div className="mb-2">First Name : {user.firstName}</div>
-                            <div className="mb-2">Last Name : {user.lastName}</div>
-                            <div className="mb-2">Gender : {user.gender} </div>
-                            <div className="mb-2">User Did : {user.userDid} </div>
-                            <div className='mb-2'>Date Of Birth : {user.dateOfBirth} </div>
-                        </div>
-                    </div>
-                    <div className='flex flex-col justify-end w-1/6'>
-                        <button className='bg-green-500 text-white rounded-t-md h-full' onClick= {() => {
-                            handleAcceptRequest()
-                        }}>
-                             <div className='ms-10'>
-                                <TiTickOutline size={40}/>
-                            </div> 
-                        </button>
-                        <button className='bg-red-500 text-white rounded-b-md h-full' onClick= {() => {
-                            handleRejectRequest()
-                        }}>
-                             <div className='ms-10'> 
-                                <RxCross2 size={30}/>
-                            </div> 
-                        </button>
-                    </div>
                 </div>
 
             </div>
+
+            <div className='flex flex-col justify-end rounded-r-lg overflow-hidden'>
+                <button
+                  className='bg-green-500 text-white p-6 h-full cursor-pointer items-center hover:bg-green-700'
+                  onClick= {() => {
+                    handleAcceptRequest()
+                  }}
+                >
+                     <div className=''>
+                        <MdOutlineCreditScore size={30}/>
+                    </div>
+                </button>
+
+                <button
+                  className='bg-red-500 text-white p-6 h-full cursor-pointer items-center hover:bg-red-700'
+                  onClick= {() => {
+                    handleRejectRequest()
+                  }}
+                >
+                     <div className=''>
+                        <MdOutlineCreditCardOff size={30}/>
+                    </div>
+                </button>
+            </div>
         </div>
-
-
-
     )
 }
 

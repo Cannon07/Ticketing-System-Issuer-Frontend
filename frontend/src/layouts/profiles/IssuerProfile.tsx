@@ -199,38 +199,14 @@ const IssuerProfile = () => {
                             {
                                 tab === 'Pending Requests' ? (
 
-                                    <div>
-
-
-                                        {/* {upcomingEvents.length != 0 ? */}
-
+                                    <div className={'flex items-center h-full flex-col'}>
                                             <PendingRequestsCard />
-
-                                            {/* :
-                                            <div className={"p-8 flex flex-col items-center"}>
-                                                <h1 className="h2 text-center">No Events Found</h1>
-                                                <div className="content flex flex-col items-center">
-                                                    <p className="mb-0 text-center">
-                                                        Oops! It seems you haven&apos;t created any events yet.
-                                                    </p>
-                                                    <p className="mt-0 text-center">
-                                                        Visit our create event page and create your events now.
-                                                    </p>
-                                                </div>
-                                                <button
-                                                    className="btn-sm btn-primary"
-                                                    onClick={() => { router.push('/create-event') }}
-                                                >
-                                                    Explore Now
-                                                </button>
-                                            </div>
-                                        } */}
 
                                     </div>
 
                                 ) : (
                                     tab === 'Issued Requests' ? (
-                                        <div className="flex justify-center items-center h-full flex-col">
+                                        <div className="flex items-center h-full flex-col">
                                             <VerifiableCredentialsCard />
                                         </div>
 

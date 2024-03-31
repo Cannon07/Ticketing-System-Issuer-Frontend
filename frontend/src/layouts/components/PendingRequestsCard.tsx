@@ -26,18 +26,6 @@ const PendingRequestsCard = () => {
     const [users, setUsers] = useState<UserProps[]>([]);
     const [selectedUser, setSelectedUser] = useState<UserProps | null>(null);
 
-    // const userData: UserProps= {
-    //     userDid: "userDid",
-    //     firstName: "firstName",
-    //     lastName: "lastName",
-    //     address: "address",
-    //     dateOfBirth: "dateOfBirth",
-    //     gender: "gender",
-    //     placeOfBirth: "placeOfBirth",
-    //     proofId: "proofId",
-    //     docType: "docType",
-    // };
-    
     useEffect(() => {
         fetchUserDetails();
     }, []);
@@ -45,7 +33,7 @@ const PendingRequestsCard = () => {
     const fetchUserDetails = async () => {
         toast.dismiss()
         toast.loading('Fetching pending requests')
-        // 
+        //
         try {
             const res = await fetch(`${GetPendingRequests}${issuerData?.id}`);
             const result = await res.json();
@@ -85,16 +73,20 @@ const PendingRequestsCard = () => {
 
     return (
         <>
-            
+
             {
-                users.length > 0 ? 
+                users.length > 0 ?
                 users.map((user) => (
                     <div key={user.userDid}>
-                        <PendingContent user={user} />
+                        <PendingContent
+                          user={user}
+                          userList={users}
+                          setUserList={setUsers}
+                        />
                     </div>
 
-                )) 
-                : <div className="flex flex-col text-center mt-40"> 
+                ))
+                : <div className="flex flex-col text-center items-center justify-center h-full">
                     <h3>No Pending Requests!!!</h3>
                     <p className="mt-3">There are no pending requests available to show.</p>
                  </div>}
