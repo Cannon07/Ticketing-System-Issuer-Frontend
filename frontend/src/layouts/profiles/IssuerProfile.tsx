@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import PendingRequestsCard from "@/components/PendingRequestsCard";
 import IssuerProfileSettings from "@/components/IssuerProfileSettings";
+import RejectedRequestsCard from "@/components/RejectedRequestsCard";
+import VerifiableCredentialsCard from "@/components/VerifiableCredentialsCard";
 
 
 
@@ -251,7 +253,7 @@ const IssuerProfile = () => {
                                                     </button>
                                                 </div>
                                             } */}
-                                            issued requests
+                                            <VerifiableCredentialsCard />
                                         </div>
 
                                     ) :
@@ -282,7 +284,7 @@ const IssuerProfile = () => {
                                                     </div>
                                                 } */}
 
-                                                rejectedRequests
+                                                <RejectedRequestsCard />
                                             </div>
 
                                             ) : (
