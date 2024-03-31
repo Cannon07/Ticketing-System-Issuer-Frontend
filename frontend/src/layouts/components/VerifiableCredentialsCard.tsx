@@ -33,7 +33,7 @@ const VerifiableCredentialsCard = () => {
     //     proofId: "proofId",
     //     docType: "docType",
     // };
-    
+
     useEffect(() => {
         fetchUserDetails();
     }, []);
@@ -75,17 +75,21 @@ const VerifiableCredentialsCard = () => {
 
     return (
         <>
-            {vcs.length > 0 ? 
-            vcs.map((vc) => (
-                <div key={vc.vcId}>
-                    <VerifiableCredentials vc={vc} />
-                </div>
 
-            )) : 
-            <div className="flex flex-col text-center mt-40"> 
-                <h3>No Issued VCs!!!</h3>
-                <p className="mt-3">There are no current issued VCs available to show.</p>
-            </div>
+            {vcs.length > 0 ?
+              <div className={"flex items-center flex-col gap-4"}>
+                {vcs.map((vc) => (
+                    <div key={vc.vcId}>
+                        <VerifiableCredentials vc={vc} />
+                    </div>
+
+                ))}
+              </div>
+            :
+              <div className="flex flex-col text-center items-center justify-center h-full">
+                  <h3>No Issued VCs!!!</h3>
+                  <p className="mt-3">There are no current issued VCs available to show.</p>
+              </div>
             }
         </>
     );

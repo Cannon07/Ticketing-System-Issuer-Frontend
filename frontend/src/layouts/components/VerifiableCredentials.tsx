@@ -16,6 +16,20 @@ interface VCCardProps {
 }
 const VerifiableCredentials: React.FC<VCCardProps> = ({vc}) => {
   console.log(vc);
+
+  function formatDate(inputDate: any) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    const dateParts = inputDate.split(' ')[0].split('-');
+    const year = parseInt(dateParts[0]);
+    const monthIndex = parseInt(dateParts[1]) - 1;
+    const day = parseInt(dateParts[2]);
+
+    const monthName = months[monthIndex];
+
+    return `${monthName} ${day}, ${year}`;
+  }
+
   return (
     <div className="w-fit rounded-xl bg-gradient-r shadow-xl ring-1 ring-black/10 p-8">
       <div className="w-full flex flex-col gap-8">
@@ -72,12 +86,12 @@ const VerifiableCredentials: React.FC<VCCardProps> = ({vc}) => {
         <div className="flex justify-between">
           <div>
             <h6>Issuance Date</h6>
-            <p className="h6">{vc.issue_date}</p>
+            <p className="h6">{formatDate(vc.issue_date)}</p>
           </div>
 
           <div>
             <h6>Expiration Date</h6>
-            <p className="h6">{vc.expiry_date}</p>
+            <p className="h6">{formatDate(vc.expiry_date)}</p>
           </div>
         </div>
       </div>

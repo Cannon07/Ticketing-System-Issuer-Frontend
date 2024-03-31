@@ -230,29 +230,7 @@ const IssuerProfile = () => {
 
                                 ) : (
                                     tab === 'Issued Requests' ? (
-                                        <div className="flex justify-center items-center h-full flex-wrap">
-
-                                            {/* {pastEvents.length != 0 ?
-                                                <PastHostingsCard eventsData={pastEvents} />
-                                                :
-                                                <div className={"p-8 flex flex-col items-center"}>
-                                                    <h1 className="h2 text-center">No Events Found</h1>
-                                                    <div className="content flex flex-col items-center">
-                                                        <p className="mb-0 text-center">
-                                                            It looks like you haven&apos;t created any events in the past.
-                                                        </p>
-                                                        <p className="mt-0 text-center">
-                                                            Visit our create event page and create your events now.
-                                                        </p>
-                                                    </div>
-                                                    <button
-                                                        className="btn-sm btn-primary"
-                                                        onClick={() => { router.push('/create-event') }}
-                                                    >
-                                                        Explore Now
-                                                    </button>
-                                                </div>
-                                            } */}
+                                        <div className="flex justify-center items-center h-full flex-col">
                                             <VerifiableCredentialsCard />
                                         </div>
 
@@ -261,29 +239,6 @@ const IssuerProfile = () => {
 
                                             tab === 'Rejected Requests' ? (
                                                 <div className="flex items-center h-full flex-col">
-
-                                                {/* {pastEvents.length != 0 ?
-                                                    <PastHostingsCard eventsData={pastEvents} />
-                                                    :
-                                                    <div className={"p-8 flex flex-col items-center"}>
-                                                        <h1 className="h2 text-center">No Events Found</h1>
-                                                        <div className="content flex flex-col items-center">
-                                                            <p className="mb-0 text-center">
-                                                                It looks like you haven&apos;t created any events in the past.
-                                                            </p>
-                                                            <p className="mt-0 text-center">
-                                                                Visit our create event page and create your events now.
-                                                            </p>
-                                                        </div>
-                                                        <button
-                                                            className="btn-sm btn-primary"
-                                                            onClick={() => { router.push('/create-event') }}
-                                                        >
-                                                            Explore Now
-                                                        </button>
-                                                    </div>
-                                                } */}
-
                                                 <RejectedRequestsCard />
                                             </div>
 
