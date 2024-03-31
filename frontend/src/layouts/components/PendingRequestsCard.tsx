@@ -45,7 +45,7 @@ const PendingRequestsCard = () => {
     const fetchUserDetails = async () => {
         toast.dismiss()
         toast.loading('Fetching pending requests')
-
+        // 
         try {
             const res = await fetch(`${GetPendingRequests}${issuerData?.id}`);
             const result = await res.json();
@@ -85,12 +85,19 @@ const PendingRequestsCard = () => {
 
     return (
         <>
-            {users.map((user) => (
-                <div key={user.userDid}>
-                    <PendingContent user={user} />
-                </div>
+            
+            {
+                users.length > 0 ? 
+                users.map((user) => (
+                    <div key={user.userDid}>
+                        <PendingContent user={user} />
+                    </div>
 
-            ))}
+                )) 
+                : <div className="flex flex-col text-center mt-40"> 
+                    <h3>No Pending Requests!!!</h3>
+                    <p className="mt-3">There are no pending requests available to show.</p>
+                 </div>}
         </>
     );
 };
