@@ -30,7 +30,7 @@ const RejectedRequestsCard = () => {
   //     proofId: "proofId",
   //     docType: "docType",
   // };
-  
+
   useEffect(() => {
       fetchUserDetails();
   }, []);
@@ -78,7 +78,7 @@ const RejectedRequestsCard = () => {
               </div>
 
           )) :
-            <div className="flex flex-col text-center mt-40"> 
+            <div className="flex flex-col text-center items-center justify-center h-full">
                 <h3>No Rejected Requests!!!</h3>
                 <p className="mt-3">There are no current rejected requests available to show.</p>
             </div>

@@ -19,7 +19,7 @@ const IssuerProfile = () => {
     const { issuerData, setIssuerData } = useGlobalContext();
     const router = useRouter();
     const [tab, setTab] = useState('Pending Requests')
-   
+
 
 
     return (
@@ -260,7 +260,7 @@ const IssuerProfile = () => {
                                         (
 
                                             tab === 'Rejected Requests' ? (
-                                                <div className="flex justify-center items-center h-full flex-wrap">
+                                                <div className="flex items-center h-full flex-col">
 
                                                 {/* {pastEvents.length != 0 ?
                                                     <PastHostingsCard eventsData={pastEvents} />
@@ -302,7 +302,7 @@ const IssuerProfile = () => {
                                                             walletId={issuerData?.walletId}
                                                             setIssuerData = {setIssuerData}
                                                         />
-                                                       
+
 
                                                     </div>
 
