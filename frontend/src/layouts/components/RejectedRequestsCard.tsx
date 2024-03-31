@@ -71,12 +71,18 @@ const RejectedRequestsCard = () => {
 
   return (
       <>
-          {users.map((user) => (
+          {users.length > 0 ?
+          users.map((user) => (
               <div key={user.userDid}>
                   <RejectedRequests user={user} />
               </div>
 
-          ))}
+          )) :
+            <div className="flex flex-col text-center mt-40"> 
+                <h3>No Rejected Requests!!!</h3>
+                <p className="mt-3">There are no current rejected requests available to show.</p>
+            </div>
+       }
       </>
   );
 };
