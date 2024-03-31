@@ -2,11 +2,13 @@ import { useRouter } from "next/navigation";
 import { MdRemoveRedEye } from "react-icons/md";
 import { GetPendingRequests } from "@/constants/endpoints/IssuerEndpoints";
 import { useEffect, useState } from "react";
+import { useGlobalContext } from "@/app/context/globalContext";
 import toast from "react-hot-toast";
 import PendingContent from "./pendingContent";
 
 
 interface UserProps {
+    id: string;
     userDid: string;
     firstName: string;
     lastName: string;
@@ -20,9 +22,22 @@ interface UserProps {
 
 const PendingRequestsCard = () => {
     const router = useRouter();
+    const {issuerData} = useGlobalContext();
     const [users, setUsers] = useState<UserProps[]>([]);
     const [selectedUser, setSelectedUser] = useState<UserProps | null>(null);
 
+    // const userData: UserProps= {
+    //     userDid: "userDid",
+    //     firstName: "firstName",
+    //     lastName: "lastName",
+    //     address: "address",
+    //     dateOfBirth: "dateOfBirth",
+    //     gender: "gender",
+    //     placeOfBirth: "placeOfBirth",
+    //     proofId: "proofId",
+    //     docType: "docType",
+    // };
+    
     useEffect(() => {
         fetchUserDetails();
     }, []);
@@ -32,11 +47,13 @@ const PendingRequestsCard = () => {
         toast.loading('Fetching pending requests')
 
         try {
-            const res = await fetch(`${GetPendingRequests}392116768483573825`);
+            const res = await fetch(`${GetPendingRequests}${issuerData?.id}`);
             const result = await res.json();
 
+            console.log(result);
             if (res.ok) {
                 const userData: UserProps[] = result.map((data: any) => ({
+                    id: data.id,
                     userDid: data.userDid,
                     firstName: data.firstName,
                     lastName: data.lastName,
@@ -74,8 +91,6 @@ const PendingRequestsCard = () => {
                 </div>
 
             ))}
-
-
         </>
     );
 };

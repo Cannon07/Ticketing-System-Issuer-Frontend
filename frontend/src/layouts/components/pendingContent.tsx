@@ -5,13 +5,19 @@ import { FcCheckmark } from "react-icons/fc";
 import { CheckmarkIcon } from 'react-hot-toast';
 import { AiOutlineClose } from "react-icons/ai";
 import { PiHourglassLowFill } from "react-icons/pi";
-
+import Image from "next/image";
 import { FaRegHourglass } from "react-icons/fa6";
+import { TiTickOutline } from "react-icons/ti";
+import { RxCross2 } from "react-icons/rx";
+import toast from 'react-hot-toast';
+import { useGlobalContext } from '@/app/context/globalContext';
+import { PostIssueVC, PutRejectRequest } from '@/constants/endpoints/IssuerEndpoints';
 
 
 
 
 interface User {
+    id: string;
     userDid: string;
     firstName: string;
     lastName: string;
@@ -37,19 +43,130 @@ const PendingContent: React.FC<UserCardProps> = ({ user }) => {
         return str.length > maxLength ? str.substring(0, maxLength) + '...' : str;
     }
 
-
+    const {issuerData} = useGlobalContext();
 
     const handleCardClick = () => {
         setToggle(!toggle);
     }
 
+    const handleRejectRequest = async() => {
+            toast.loading("Rejecting request..", {id: "UpdateUserLoading"})
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+      
+            var raw = JSON.stringify({
+              "userId": user.id,
+              "issuerDid" : issuerData?.publicDid,
+            });
+      
+            console.log(raw);
+      
+            var requestOptions = {
+              method: 'PUT',
+              headers: myHeaders,
+              body: raw,
+            };
+      
+            let response = await fetch(`${PutRejectRequest}`, requestOptions)
+      
+            console.log(response);
+      
+            if (response.ok) {
+              toast.dismiss();
+              let result = await response.json();
+              console.log(result);
+      
+            //   let newUserData: UserData = {
+            //     "id": userData.id,
+            //     "userEmail": userData.userEmail,
+            //     "walletId": userData.walletId,
+            //     "userDetailsId": userDetailsId,
+            //     "transactionId": userData.transactionId,
+            //     "profileImg": userData.profileImg,
+            //   }
+      
+            //   setUserData(newUserData);
+      
+            //   setOriginalFirstName(firstName);
+            //   setOriginalLastName(lastName);
+            //   setOriginalAddress(address);
+            //   setOriginalDateOfBirth(dateOfBirth);
+            //   setOriginalPlaceOfBirth(placeOfBirth);
+            //   setOriginalSelectedGender(selectedGender);
+            //   setOriginalSelectedDocType(selectedDocType);
+            //   setOriginalDocImage(imageUrl);
+      
+              toast.success("Request rejected Successfully!", {id: "UserUpdateSuccess"});
+            //   setLoading(false);
+            } else {
+              toast.error("Something went wrong!", {id: "UserUpdateFailure"});
+            //   setLoading(false);
+            }
+          
+    }
+
+    const handleAcceptRequest = async() => {
+        toast.loading("Issuing VC..", {id: "UpdateUserLoading"})
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+  
+        var raw = JSON.stringify({
+          "userId": user.id,
+          "issuerDid" : issuerData?.publicDid,
+        });
+  
+        console.log(raw);
+  
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+        };
+  
+        let response = await fetch(`${PostIssueVC}`, requestOptions)
+  
+        console.log(response);
+  
+        if (response.ok) {
+          toast.dismiss();
+          let result = await response.json();
+          console.log(result);
+  
+        //   let newUserData: UserData = {
+        //     "id": userData.id,
+        //     "userEmail": userData.userEmail,
+        //     "walletId": userData.walletId,
+        //     "userDetailsId": userDetailsId,
+        //     "transactionId": userData.transactionId,
+        //     "profileImg": userData.profileImg,
+        //   }
+  
+        //   setUserData(newUserData);
+  
+        //   setOriginalFirstName(firstName);
+        //   setOriginalLastName(lastName);
+        //   setOriginalAddress(address);
+        //   setOriginalDateOfBirth(dateOfBirth);
+        //   setOriginalPlaceOfBirth(placeOfBirth);
+        //   setOriginalSelectedGender(selectedGender);
+        //   setOriginalSelectedDocType(selectedDocType);
+        //   setOriginalDocImage(imageUrl);
+  
+          toast.success("VC Issued Successfully!", {id: "UserUpdateSuccess"});
+        //   setLoading(false);
+        } else {
+          toast.error("Something went wrong!", {id: "UserUpdateFailure"});
+        //   setLoading(false);
+        }
+      
+}
 
 
     return (
 
         <div key={user.userDid} className="mb-4">
             <div onClick={handleCardClick} className={`rounded-lg bg-white dark:bg-darkmode-theme-light p-8 shadow-md h-full w-auto ${!toggle?'dark:hover:bg-gray-700 hover:bg-gray-200 cursor-pointer':''}  `}>
-                <div  className={`flex justify-between items-center ${toggle?'mb-4':''}`}>
+                {/* <div  className={`flex justify-between items-center ${toggle?'mb-4':''}`}>
                     <h3 className="text-xl font-bold">{user.firstName} {user.lastName}</h3>
                     <div className="flex items-center space-x-4">
                         <div>
@@ -122,6 +239,42 @@ const PendingContent: React.FC<UserCardProps> = ({ user }) => {
                         </div>
                     }
 
+                </div> */}
+
+                <div className="flex rounded overflow-hidden h-auto">
+                    <div className="w-2/6 h-10">
+                        <Image
+                        src="https://firebasestorage.googleapis.com/v0/b/concert-ticketing-system-67922.appspot.com/o/76de2c13-f980-4efc-8a7a-8aa95e1c0d3f.png?alt=media"
+                        width={1000}
+                        height={1000}
+                        alt='Preview'
+                        />
+                    </div>
+                    <div className="w-4/6">
+                        <div className="ms-4 mb-4">
+                            <div className="mb-2">First Name : {user.firstName}</div>
+                            <div className="mb-2">Last Name : {user.lastName}</div>
+                            <div className="mb-2">Gender : {user.gender} </div>
+                            <div className="mb-2">User Did : {user.userDid} </div>
+                            <div className='mb-2'>Date Of Birth : {user.dateOfBirth} </div>
+                        </div>
+                    </div>
+                    <div className='flex flex-col justify-end w-1/6'>
+                        <button className='bg-green-500 text-white rounded-t-md h-full' onClick= {() => {
+                            handleAcceptRequest()
+                        }}>
+                             <div className='ms-10'>
+                                <TiTickOutline size={40}/>
+                            </div> 
+                        </button>
+                        <button className='bg-red-500 text-white rounded-b-md h-full' onClick= {() => {
+                            handleRejectRequest()
+                        }}>
+                             <div className='ms-10'> 
+                                <RxCross2 size={30}/>
+                            </div> 
+                        </button>
+                    </div>
                 </div>
 
             </div>
